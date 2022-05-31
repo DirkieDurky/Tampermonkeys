@@ -1,0 +1,28 @@
+// ==UserScript==
+// @name         Fix restart button on Minesweeper Online
+// @namespace    https://minesweeper.online/
+// @version      1.0
+// @description  The restart button originally spans the entire "header" which has caused me to restart a good game multiple times, therefore, this makes it so only clicking the face will restart the game
+// @author       DirkieDurky
+// @match        https://minesweeper.online/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=minesweeper.online
+// @grant        none
+// ==/UserScript==
+
+var loading = setInterval(function () {
+    if (document.getElementById("top_area")) {
+        clearInterval(loading);
+        'use strict';
+
+        //Remove faulty event listener
+        var old_element = document.getElementById("top_area");
+        var new_element = old_element.cloneNode(true);
+        old_element.parentNode.replaceChild(new_element, old_element);
+
+        //Add new event listener
+        document.getElementById("top_area_face").addEventListener("click",W9.s67);
+    }
+}, 100);
+setTimeout(function(){
+    clearInterval(loading);
+},5000)
