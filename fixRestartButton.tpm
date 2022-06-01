@@ -9,20 +9,15 @@
 // @grant        none
 // ==/UserScript==
 
-var loading = setInterval(function () {
-    if (document.getElementById("top_area")) {
-        clearInterval(loading);
-        'use strict';
+'use strict';
 
-        //Remove faulty event listener
-        var old_element = document.getElementById("top_area");
-        var new_element = old_element.cloneNode(true);
-        old_element.parentNode.replaceChild(new_element, old_element);
+setInterval(function (){
+    const button = document.getElementById("top_area");
 
-        //Add new event listener
-        document.getElementById("top_area_face").addEventListener("click",W9.s67);
-    }
-}, 100);
-setTimeout(function(){
-    clearInterval(loading);
-},5000)
+    //Remove faulty event listener
+    var newButton = button.cloneNode(true);
+    button.parentNode.replaceChild(newButton, button);
+
+    //Add new event listener
+    document.getElementById("top_area_face").addEventListener("click",W9.s67);
+},1000);
