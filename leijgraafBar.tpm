@@ -1,0 +1,50 @@
+// ==UserScript==
+// @name         Leijgraaf bar
+// @namespace    http://tampermonkey.net/
+// @version      0.2
+// @description  Doing someone elses work
+// @author       dirkDev
+// @match        https://leijgraaf.onderwijsonline.nl/internships/Byl0eA0y/summary
+// @icon         https://www.google.com/s2/favicons?domain=onderwijsonline.nl
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    const observed = document.getElementById("app-container");
+    const config = {childList: true, subtree: true};
+    const observer = new MutationObserver(mutations => {
+        const progress = document.getElementsByClassName("progress")[0];
+        if (progress != undefined)
+        {
+            const oldDur = progress.children[0].style.transitionDuration;
+            progress.children[0].style.transitionDuration = "0s";
+            progress.children[0].style.minWidth = "0";
+            progress.children[0].style.transitionDuration = oldDur;
+
+            let timeText = progress.nextElementSibling.innerText;
+            timeText = timeText.substr(0,timeText.length - " uur geregistreerd".length);
+
+            let times = timeText.split(" van de ");
+            let currentTime = times[0].split(":");
+            currentTime = currentTime[0] + "." + Math.round(currentTime[1]);
+
+            let percentage = currentTime / times[1] * 100;
+            let index = 0;
+            let derpInterval = setInterval(() => {
+                let random = Math.floor(Math.random() * 100);
+                progress.children[0].style.width = random + "%";
+                //if (index >= 50) {
+                if (random === Math.round(percentage)) {
+                    clearInterval(derpInterval);
+                    //progress.children[0].style.width = percentage + "%";
+                } else {
+                    console.error(`Guessed ${random}%, should have been ${Math.round(percentage)}%`);
+                }
+                index++;
+            }, 500)
+            }
+    });
+    observer.observe(observed, config);
+})();
