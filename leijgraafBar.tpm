@@ -39,7 +39,7 @@ function fixBar(){
         let percentage = currentTime / times[1] * 100;
         let index = 0;
         let derpInterval = setInterval(() => {
-            let random = Math.floor(Math.random() * 100);
+            let random = Math.floor(Math.random() * 101);
             progress.children[0].style.width = random + "%";
             //if (index >= 50) {
             if (random === Math.round(percentage)) {
