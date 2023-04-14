@@ -4,14 +4,15 @@
 // @version      0.2
 // @description  Doing someone elses work
 // @author       dirkDev
-// @match        https://leijgraaf.onderwijsonline.nl/internships/VqdXmnxq/summary
+// @match        https://leijgraaf.onderwijsonline.nl/internships
+// @match        https://leijgraaf.onderwijsonline.nl/internships/*
 // @icon         https://www.google.com/s2/favicons?domain=onderwijsonline.nl
 // @grant        none
 // ==/UserScript==
 
 'use strict';
 
-doFunction(randomiseBar);
+doFunction(fixBar);
 
 function doFunction(func) {
     func();
