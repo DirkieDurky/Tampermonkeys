@@ -29,19 +29,9 @@ function fixBar() {
     const progress = document.getElementsByClassName("progress")[0];
     if (progress != undefined)
     {
-        const oldDur = progress.children[0].style.transitionDuration;
-        progress.children[0].style.transitionDuration = "0s";
-        progress.children[0].style.minWidth = "0";
-        progress.children[0].style.transitionDuration = oldDur;
+        resetBar(progress);
+        let percentage = calculatePercentage(progress);
 
-        let timeText = progress.nextElementSibling.innerText;
-        timeText = timeText.substr(0,timeText.length - " uur geregistreerd".length);
-
-        let times = timeText.split(" van de ");
-        let currentTime = times[0].split(":");
-        currentTime = currentTime[0] + "." + Math.round(currentTime[1]);
-
-        let percentage = currentTime / times[1] * 100;
         progress.children[0].style.width = Math.round(percentage) + "%";
     }
 }
@@ -50,31 +40,34 @@ function randomiseBar() {
     const progress = document.getElementsByClassName("progress")[0];
     if (progress != undefined)
     {
-        const oldDur = progress.children[0].style.transitionDuration;
-        progress.children[0].style.transitionDuration = "0s";
-        progress.children[0].style.minWidth = "0";
-        progress.children[0].style.transitionDuration = oldDur;
-
-        let timeText = progress.nextElementSibling.innerText;
-        timeText = timeText.substr(0,timeText.length - " uur geregistreerd".length);
-
-        let times = timeText.split(" van de ");
-        let currentTime = times[0].split(":");
-        currentTime = currentTime[0] + "." + Math.round(currentTime[1]);
-
-        let percentage = currentTime / times[1] * 100;
-        let index = 0;
+        resetBar(progress);
+        let percentage = calculatePercentage(progress);
         let derpInterval = setInterval(() => {
             let random = Math.floor(Math.random() * 101);
             progress.children[0].style.width = random + "%";
-            //if (index >= 50) {
             if (random === Math.round(percentage)) {
                 clearInterval(derpInterval);
-                //progress.children[0].style.width = percentage + "%";
             } else {
                 console.error(`Guessed ${random}%, should have been ${Math.round(percentage)}%`);
             }
-            index++;
         }, 500)
     }
+}
+
+function resetBar(progress) {
+    const oldDur = progress.children[0].style.transitionDuration;
+    progress.children[0].style.transitionDuration = "0s";
+    progress.children[0].style.minWidth = "0";
+    progress.children[0].style.transitionDuration = oldDur;
+}
+
+function calculatePercentage(progress){
+    let timeText = progress.nextElementSibling.innerText;
+    timeText = timeText.substr(0,timeText.length - " uur geregistreerd".length);
+
+    let times = timeText.split(" van de ");
+    let currentTime = times[0].split(":");
+    currentTime = currentTime[0] + "." + Math.round(currentTime[1]);
+
+    return currentTime / times[1] * 100;
 }
