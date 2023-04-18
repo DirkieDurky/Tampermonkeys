@@ -1,0 +1,64 @@
+// ==UserScript==
+// @name         Vortex Votes
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  Votes on all 7 vote pages for Vortex Network on Minecraft
+// @author       Dirk
+// @match        https://best-minecraft-servers.co/server-vortex-network.2777/vote
+// @match        https://servers-minecraft.net/server-vortex-network.1095
+// @match        https://servers-minecraft.net/server-vortex-network.1095/vote
+// @match        https://topminecraftservers.org/vote/23963
+// @match        https://topg.org/minecraft-servers/server-596933
+// @match        https://minecraftservers.org/vote/576518
+// @match        https://minecraft-server-list.com/server/454769/vote/
+// @match        https://minecraftpocket-servers.com/server/105177/vote/
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=topminecraftservers.org
+// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js
+// @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
+// @grant        window.close
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    const username = "DirkieDurky";
+    const url = window.location.href;
+
+    $(document).ready(async ()=>{
+        switch (url){
+            case "https://best-minecraft-servers.co/server-vortex-network.2777/vote":
+                document.getElementsByName("username")[0].value = username;
+                document.getElementsByName("voteSubmit")[0].click();
+                window.close();
+                break;
+            case "https://servers-minecraft.net/server-vortex-network.1095":
+            case "https://servers-minecraft.net/server-vortex-network.1095/vote":
+                document.getElementsByName("username")[0].value = username;
+
+                await until(_ => ("#recaptcha-anchor").getAttribute("aria-checked") == true);
+                console.log("testings");
+                document.getElementById("voteSubmitBtn").click();
+                //window.close();
+                break;
+            case "https://topminecraftservers.org/vote/23963":
+                break;
+            case "https://topg.org/minecraft-servers/server-596933":
+                break;
+            case "https://minecraftservers.org/vote/576518":
+                break;
+            case "https://minecraft-server-list.com/server/454769/vote/":
+                break;
+            case "https://minecraftpocket-servers.com/server/105177/vote/":
+                break;
+        }
+    });
+})();
+
+function until(conditionFunction) {
+
+  const poll = resolve => {
+    if(conditionFunction()) resolve();
+    else setTimeout(_ => poll(resolve), 400);
+  }
+
+  return new Promise(poll);
+}
